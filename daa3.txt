@@ -1,0 +1,88 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class Item{
+    public:
+    int index;
+    double profit;
+    double weight;
+    double ratio;
+    
+    Item(int idx,double p,double w)
+    {
+        index = idx;
+        profit = p;
+        weight = w;
+        ratio = p/w;
+    }
+};
+
+bool comp(Item a,Item b)
+{
+    return a.ratio>b.ratio;
+}
+
+int main()
+{
+    int n;
+    double capacity;
+    cout<<"total obj : ";
+    cin>>n;
+    vector<Item>items;
+    for(int i = 0;i<n;i++)
+    {
+        double profit,wt;
+        // cout<<"profit "<<i+1<<" ";
+        cin>>profit;
+        // cout<<"weight "<<i+1<<" ";
+        cin>>wt;
+        items.push_back(Item(i+1,profit,wt));
+    }
+    
+    cout<<"\nItems\tProfit\tWeight\tP/W Ratio\n";
+    for(int i = 0;i<n;i++)
+    {
+        cout<<items[i].index<<"\t"<<items[i].profit << "\t" << items[i].weight 
+             << "\t"<<items[i].ratio<<"\n";
+    }
+    
+    sort(items.begin(),items.end(),comp);
+    cout<<"\nSorted\n\n";
+    cout<<"\nItems\tProfit\tWeight\tP/W Ratio\n";
+    for(int i = 0;i<n;i++)
+    {
+        cout<<items[i].index<<"\t"<<items[i].profit << "\t" << items[i].weight 
+             << "\t"<<items[i].ratio<<"\n";
+    }
+    
+    int cap;
+    cout<<"Capacity : ";
+    cin>>cap;
+    
+    double maxProfit  = 0.0;
+    vector<int>final;
+    for(int i = 0;i<n;i++)
+    {
+        if(cap>=items[i].weight)
+        {
+            maxProfit += items[i].profit;
+            cap -= items[i].weight;
+            final.push_back(items[i].index);
+        }
+        else {
+            if(cap>0)
+        {maxProfit+=items[i].profit*(cap/items[i].weight);
+        final.push_back(items[i].index);
+        break;}
+        }
+    }
+    
+    cout<<"Max profit "<<maxProfit<<endl;
+    cout<<"Choosen item : ";
+    for(auto a:final)
+    {
+        cout<<a<<" ";
+    }
+    return 0;
+    
+}
